@@ -1,0 +1,32 @@
+{
+	"name": "fabianmichael/kirby-template-attributes",
+	"description": "Better HTML attribute handling for your snippets and templates.",
+	"license": "MIT",
+	"type": "kirby-plugin",
+	"version": "1.0.0",
+	"authors": [
+		{
+			"name": "Fabian Michael",
+			"email": "hallo@fabianmichael.de"
+		}
+	],
+	"require": {
+		"getkirby/composer-installer": "^1.2",
+		"getkirby/cms": "^3.8"
+	},
+	"autoload": {
+		"psr-4": {
+			"FabianMichael\\TemplateAttributes\\": "src/"
+		}
+	},
+	"config": {
+		"optimize-autoloader": true,
+		"allow-plugins": {
+			"getkirby/composer-installer": true
+		}
+	},
+	"extra": {
+		"kirby-cms-path": false,
+		"installer-name": "template-attributes"
+	}
+}
