@@ -3,8 +3,8 @@
 namespace FabianMichael\TemplateAttributes;
 
 use Exception;
-use Stringable;
 use Kirby\Toolkit\Str;
+use Stringable;
 
 /**
  * The `Attribute` class represents the value of an HTML attributes
@@ -61,12 +61,12 @@ class Attribute implements Stringable
 
 			// first, remove excess separators between chunks
 			$first = ($this->mergeStrategy === static::MERGE_APPEND ? $this->value : $attribute);
-			$first = Str::beforeEnd((string) $first, $this->separator);
+			$first = Str::beforeEnd((string)$first, $this->separator);
 			$last = ($this->mergeStrategy === static::MERGE_PREPEND ? $this->value : $attribute);
-			$last = Str::afterStart((string) $last, $this->separator);
+			$last = Str::afterStart((string)$last, $this->separator);
 
 			// synthesize new value
-			$value = array_filter([$first, $last], fn($item) => ! empty($item));
+			$value = array_filter([$first, $last], fn ($item) => ! empty($item));
 			$value = implode($this->separator, $value);
 
 			// return new instance
@@ -84,6 +84,6 @@ class Attribute implements Stringable
 
 	public function __toString()
 	{
-		return (string) $this->value;
+		return (string)$this->value;
 	}
 }

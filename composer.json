@@ -25,8 +25,15 @@
 			"getkirby/composer-installer": true
 		}
 	},
+	"scripts": {
+		"linter": "vendor/bin/php-cs-fixer fix --dry-run --diff",
+    "linter:fix": "vendor/bin/php-cs-fixer fix --diff"
+	},
 	"extra": {
 		"kirby-cms-path": false,
 		"installer-name": "template-attributes"
+	},
+	"require-dev": {
+		"friendsofphp/php-cs-fixer": "^3.13"
 	}
 }

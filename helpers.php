@@ -12,7 +12,7 @@ use FabianMichael\TemplateAttributes\Attributes;
  */
 function attributes(array|Attributes $data = []): Attributes
 {
-    return new Attributes($data);
+	return new Attributes($data);
 }
 
 function classes(array|string $classes = []): Attributes

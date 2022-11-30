@@ -55,7 +55,6 @@ class Attributes implements Stringable
 
 	public function set(string $name, mixed $value): static
 	{
-
 		$method = 'resolve' . ucfirst($name);
 		if (method_exists(static::class, $method)) {
 			// If a resolve method for this attribute exists, execute
@@ -66,7 +65,7 @@ class Attributes implements Stringable
 		if (array_key_exists($name, $this->data)) {
 			// Merge with existing attribute
 			$this->data[$name] = $this->data[$name]->merge($value);
-		} else if (is_a($value, Attribute::class)) {
+		} elseif (is_a($value, Attribute::class)) {
 			$this->data[$name] = $value;
 		} else {
 			// Set new attribute
@@ -129,7 +128,7 @@ class Attributes implements Stringable
 
 	public function __toString()
 	{
-		return (string) Html::attr(
+		return (string)Html::attr(
 			array_map(fn ($item) => $item->value(), $this->data),
 			before: $this->before,
 			after: $this->after
