@@ -13,19 +13,15 @@ use Stringable;
  */
 class Attribute implements Stringable
 {
-	public const MERGE_REPLACE = 0;
-	public const MERGE_APPEND = 1;
-	public const MERGE_PREPEND = 2;
-
 	public const DEFAULT_SEPARATOR = ' ';
 
 	public readonly mixed $value;
-	public readonly ?int $mergeStrategy;
+	public readonly ?MergeStrategy $mergeStrategy;
 	public readonly ?string $separator;
 
 	public function __construct(
 		mixed $value,
-		?int $mergeStrategy = null,
+		?MergeStrategy $mergeStrategy = null,
 		?string $separator = null
 	) {
 		if (is_a($value, static::class)) {
@@ -33,11 +29,11 @@ class Attribute implements Stringable
 			// extract all informartion and transfer to this instance.
 			$this->value = $value->value;
 			$this->mergeStrategy = $mergeStrategy ?? $value->mergeStrategy;
-			$this->separator = $separator ?? $value->separator;
+			$this->separator = $separator ?? $value->separator ?? static::DEFAULT_SEPARATOR;
 		} else {
 			$this->value = $value;
 			$this->mergeStrategy = $mergeStrategy;
-			$this->separator = $separator;
+			$this->separator = $separator ?? static::DEFAULT_SEPARATOR;
 		}
 	}
 
@@ -46,7 +42,7 @@ class Attribute implements Stringable
 	 */
 	public function merge(mixed $attribute): static
 	{
-		if (in_array($this->mergeStrategy, [static::MERGE_APPEND, static::MERGE_PREPEND])) {
+		if (in_array($this->mergeStrategy, [MergeStrategy::APPEND, MergeStrategy::PREPEND])) {
 			// append or prepend strategy
 
 			if (is_a($attribute, self::class)) {
@@ -60,9 +56,9 @@ class Attribute implements Stringable
 			}
 
 			// first, remove excess separators between chunks
-			$first = ($this->mergeStrategy === static::MERGE_APPEND ? $this->value : $attribute);
+			$first = ($this->mergeStrategy === MergeStrategy::APPEND ? $this->value : $attribute);
 			$first = Str::beforeEnd((string)$first, $this->separator);
-			$last = ($this->mergeStrategy === static::MERGE_PREPEND ? $this->value : $attribute);
+			$last = ($this->mergeStrategy === MergeStrategy::PREPEND ? $this->value : $attribute);
 			$last = Str::afterStart((string)$last, $this->separator);
 
 			// synthesize new value

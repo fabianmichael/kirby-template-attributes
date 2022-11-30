@@ -4,3 +4,7 @@
 # vendor files modules
 /node_modules
 /vendor
+
+# Cache files
+.php-cs-fixer.cache
+.phpunit.result.cache

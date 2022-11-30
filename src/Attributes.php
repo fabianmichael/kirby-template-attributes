@@ -4,6 +4,7 @@ namespace FabianMichael\TemplateAttributes;
 
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Html;
+use Kirby\Toolkit\Str;
 use Stringable;
 
 /**
@@ -16,8 +17,19 @@ class Attributes implements Stringable
 	protected ?string $before = null;
 	protected ?string $after = null;
 
-	public function __construct(self|array $data = [])
+	public function __construct(...$data)
 	{
+		if (count($data) === 1 && array_key_first($data) === 0) {
+			// Array input
+			$data = $data[0];
+		} else if (A::isAssociative($data)) {
+			// Named arguments, convert camelCase => kebab-case
+			$data = array_combine(
+				array_map(fn($key) => Str::kebab($key), array_keys($data)),
+				array_values($data)
+			);
+		}
+
 		if (is_a($data, self::class)) {
 			$data = $data->data;
 		}
@@ -29,16 +41,20 @@ class Attributes implements Stringable
 
 	public static function createClass(mixed $value): Attribute
 	{
-		return new Attribute($value, Attribute::MERGE_APPEND, ' ');
+		return new Attribute($value, MergeStrategy::APPEND, ' ');
 	}
 
 	public static function createStyle(mixed $value): Attribute
 	{
-		return new Attribute($value, Attribute::MERGE_APPEND, '; ');
+		return new Attribute($value, MergeStrategy::APPEND, '; ');
 	}
 
-	public function get(string $name): ?Attribute
+	public function get(?string $name = null): Attribute|array|null
 	{
+		if (is_null($name)) {
+			return $this->data;
+		}
+
 		return $this->data[$name] ?? null;
 	}
 

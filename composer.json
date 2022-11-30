@@ -27,13 +27,15 @@
 	},
 	"scripts": {
 		"linter": "vendor/bin/php-cs-fixer fix --dry-run --diff",
-    "linter:fix": "vendor/bin/php-cs-fixer fix --diff"
+    "linter:fix": "vendor/bin/php-cs-fixer fix --diff",
+		"test": "phpunit --stderr"
 	},
 	"extra": {
 		"kirby-cms-path": false,
 		"installer-name": "template-attributes"
 	},
 	"require-dev": {
-		"friendsofphp/php-cs-fixer": "^3.13"
+		"friendsofphp/php-cs-fixer": "^3.13",
+		"phpunit/phpunit": "^9"
 	}
 }
