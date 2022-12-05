@@ -23,7 +23,7 @@ class Attributes implements Stringable
 			// Array input
 			$data = $data[0];
 		} else if (A::isAssociative($data)) {
-			// Named arguments, convert camelCase => kebab-case
+			// Named arguments, convert camelCase to kebab-case
 			$data = array_combine(
 				array_map(fn($key) => Str::kebab($key), array_keys($data)),
 				array_values($data)
