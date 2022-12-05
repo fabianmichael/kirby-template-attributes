@@ -22,10 +22,10 @@ class Attributes implements Stringable
 		if (count($data) === 1 && array_key_first($data) === 0) {
 			// Array input
 			$data = $data[0];
-		} else if (A::isAssociative($data)) {
+		} elseif (A::isAssociative($data)) {
 			// Named arguments, convert camelCase to kebab-case
 			$data = array_combine(
-				array_map(fn($key) => Str::kebab($key), array_keys($data)),
+				array_map(fn ($key) => Str::kebab($key), array_keys($data)),
 				array_values($data)
 			);
 		}
@@ -39,14 +39,29 @@ class Attributes implements Stringable
 		}
 	}
 
-	public static function createClass(mixed $value): Attribute
+	public static function createClassAttribute(mixed $value): Attribute
 	{
 		return new Attribute($value, MergeStrategy::APPEND, ' ');
 	}
 
-	public static function createStyle(mixed $value): Attribute
+	public static function createStyleAttribute(mixed $value): Attribute
 	{
 		return new Attribute($value, MergeStrategy::APPEND, '; ');
+	}
+
+	public function append(mixed $value): Attribute
+	{
+		return new Attribute($value, MergeStrategy::APPEND);
+	}
+
+	public function prepend(mixed $value): Attribute
+	{
+		return new Attribute($value, MergeStrategy::PREPEND);
+	}
+
+	public function protect(mixed $value): Attribute
+	{
+		return new Attribute($value, MergeStrategy::PROTECT);
 	}
 
 	public function get(?string $name = null): Attribute|array|null
@@ -85,7 +100,7 @@ class Attributes implements Stringable
 			$this->data[$name] = $value;
 		} else {
 			// Set new attribute
-			$method = 'create' . ucfirst($name);
+			$method = 'create' . ucfirst($name) . 'Attribute';
 			$this->data[$name] = method_exists(static::class, $method)
 				? static::$method($value)
 				: new Attribute($value);

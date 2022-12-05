@@ -2,8 +2,10 @@
 
 namespace FabianMichael\TemplateAttributes;
 
-enum MergeStrategy {
+enum MergeStrategy
+{
 	case REPLACE;
+	case PROTECT;
 	case APPEND;
 	case PREPEND;
 }

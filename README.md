@@ -1,10 +1,80 @@
-## Better attribute handling for snippets and templates
+# Kirby Template Attributes
 
-Whenever a snippet or component is included into a template, one often wants to pass additional variables and other parameters. Vue.js and Laravel blade templates provide means for merging the HTML attributes of components with ones fromt he outside. This is an exploration in search of better HTML attribute handling for nested snippets and components.
+**Better attribute API for snippets and templates**
 
-**⚠️ This is still work-in-progress, use at your own risk ⚠️**
+This plugin brings Vue.js/Laravel-Blade-like attribute composition to the templates of your kirb yproject. This is an exploration in search of better HTML attribute handling for nested snippets and components.
 
-### Example
+**⚠️ Work-in-progress, use at your own risk ⚠️**
+
+## Installtion
+
+During this early development stage, installation only works via composer:
+
+```
+composer require fabianmichael/kirby-template-attributes
+```
+
+## Usage
+
+### Basic usage
+
+The plugin provides 2 helpers functions as entry points:
+
+```php
+# site/snippets/button.php
+
+<button <?= attributes([
+	'role' => 'button',
+	'aria-expanded' => 'false',
+]) ?>>[…]</button>
+```
+
+```php
+# site/snippets/button.php
+
+<button <?= classes([
+	'button',
+	'button--red' => $color === 'red', // class will only appear in class attribute, if condition is true
+]) ?>>[…]</button>
+```
+
+## Merging attributes
+
+```php
+# site/snippets/button.php
+
+<button <?= attributes([
+	'class' => 'button',
+	'role' => 'button',
+	'aria-expanded' => 'false',
+	'style' => '--foo: bar',
+])->merge($attr ?? []) ?>>[…]</button>
+
+# site/templates/default.php
+
+<?php snippet('button', [
+	'attr' => [
+		'role' => 'unicorn', // attributes can be overridden
+		'onclick' => 'alert("everyone likes alerts!!!")',
+		'class' => 'absolute top-0 left-0', // classes are automatically appended to the existing attribute value
+		'style' => '--bar: foo', // style attribute value is also appended to the original value
+	],
+]) ?>
+```
+
+## Custom merge strategies
+
+- Custom merge strategies for arbitrary attributes
+
+
+## Before/After
+
+```
+->before()
+->after()
+```
+
+## Examples
 
 A button component exists as a snippet in `site/snippets/button.php`:
 

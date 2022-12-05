@@ -27,4 +27,3 @@ class AttributesTest extends TestCase
 		$this->assertEquals((string)$attr, 'bar="foo" foo="bar" kebab-case="kebab"');
 	}
 }
-

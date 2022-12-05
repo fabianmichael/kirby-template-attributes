@@ -46,6 +46,11 @@ class AttributeTest extends TestCase
 		$this->assertEquals((new Attribute('foo', MergeStrategy::PREPEND, ', '))->merge('bar')->value(), 'bar, foo');
 	}
 
+	public function testMergeProtect(): void
+	{
+		$this->assertEquals((new Attribute('foo', MergeStrategy::PROTECT))->merge('bar')->value(), 'foo');
+	}
+
 	public function testIncompatibleMergeStrategy(): void
 	{
 		$this->expectException(Exception::class);
@@ -64,4 +69,3 @@ class AttributeTest extends TestCase
 		$foo->merge($bar);
 	}
 }
-

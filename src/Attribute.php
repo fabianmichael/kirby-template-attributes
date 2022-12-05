@@ -42,6 +42,11 @@ class Attribute implements Stringable
 	 */
 	public function merge(mixed $attribute): static
 	{
+		if ($this->mergeStrategy === MergeStrategy::PROTECT) {
+			// Protected attribute, do not override
+			return $this;
+		}
+
 		if (in_array($this->mergeStrategy, [MergeStrategy::APPEND, MergeStrategy::PREPEND])) {
 			// append or prepend strategy
 
