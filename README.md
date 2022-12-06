@@ -26,20 +26,25 @@ Alternatively, if you want to contribute to the development of this plugin, you 
 
 ### Basic usage
 
-The plugin provides 2 helpers functions as entry points:
+Use the `attributes()` helper for generating a string of attributes:
 
 ```php
-# site/snippets/button.php
-
+<!-- associative array as argument -->
 <button <?= attributes([
   'role' => 'button',
   'aria-expanded' => 'false',
 ]) ?>>[…]</button>
+
+<!-- named arguments (leaner syntax, camelCase is converted to kebap-case) -->
+<button <?= attributes(
+  role: 'button',
+  ariaExpanded: 'false',
+) ?>>[…]</button>
 ```
 
-```php
-# site/snippets/button.php
+In many cases, you need to set different classes. The `classes()` helper is a nice shortcut for improved readability:
 
+```php
 <button <?= classes([
   'button',
   'button--red' => $color === 'red', // class will only appear in class attribute, if condition is true
