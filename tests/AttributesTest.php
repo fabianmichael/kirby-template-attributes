@@ -67,6 +67,14 @@ class AttributesTest extends TestCase
 		$this->assertEquals((string)$value, 'foo baz');
 	}
 
+	public function testMerge(): void
+	{
+		$attr = new Attributes(foo: 'bar');
+		$attr = $attr->merge(bar: 'foo');
+
+		$this->assertEquals((string)$attr, 'bar="foo" foo="bar"');
+	}
+
 	public function testMergeClassAttribute(): void
 	{
 		$attr = new Attributes(['class' => 'foo']);
