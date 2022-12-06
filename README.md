@@ -2,17 +2,25 @@
 
 **Better attribute API for snippets and templates**
 
-This plugin brings [Vue.js](https://vuejs.org/)/[Laravel-Blade](https://laravel.com/docs/9.x/blade#components)-like attribute composition to the templates of your Kirby yproject. This is an exploration in search of better HTML attribute handling for nested snippets and components.
+This plugin brings [Vue.js](https://vuejs.org)/[Laravel-Blade](https://laravel.com/docs/9.x/blade#components)-like attribute composition to the templates of your [Kirby](https://getkirby.com) yproject. This is an exploration in search of better HTML attribute handling for nested snippets and components.
 
 **⚠️ Work-in-progress, use at your own risk ⚠️**
 
-## Installtion
+
+## Requirements
+
+- Kirby 3.8
+- PHP 8.1 (because of [Enumeration](https://www.php.net/manual/en/language.types.enumerations.php) support)
+
+## Installation
 
 During this early development stage, installation only works via composer:
 
 ```
 composer require fabianmichael/kirby-template-attributes
 ```
+
+Alternatively, if you want to contribute to the development of this plugin, you can install it via submodule or clone this repository and use it as a local composer dependency.
 
 ## Usage
 
