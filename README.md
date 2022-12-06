@@ -29,16 +29,17 @@ Alternatively, if you want to contribute to the development of this plugin, you 
 Use the `attributes()` helper for generating a string of attributes:
 
 ```php
-<!-- associative array as argument -->
 <button <?= attributes([
   'role' => 'button',
   'aria-expanded' => 'false',
 ]) ?>>[…]</button>
+```
+You can also use named arguments if you prefer a leaner syntax:
 
-<!-- named arguments (leaner syntax, camelCase is converted to kebap-case) -->
+```php 
 <button <?= attributes(
   role: 'button',
-  ariaExpanded: 'false',
+  ariaExpanded: 'false', // camelCase is converted to kebap-case
 ) ?>>[…]</button>
 ```
 
