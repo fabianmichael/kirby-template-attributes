@@ -85,7 +85,7 @@ class AttributeValue implements Stringable
 		return $this->value;
 	}
 
-	public function __toString()
+	public function __toString(): string
 	{
 		return (string)$this->value;
 	}

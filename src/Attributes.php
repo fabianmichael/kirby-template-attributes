@@ -146,7 +146,7 @@ class Attributes implements Stringable
 		if (array_key_exists($name, $this->data)) {
 			// Merge with existing attribute
 			$this->data[$name] = $this->data[$name]->merge($value);
-		} elseif (is_a($value, Attribute::class)) {
+		} elseif (is_a($value, AttributeValue::class)) {
 			$this->data[$name] = $value;
 		} else {
 			// Set new attribute
@@ -168,7 +168,7 @@ class Attributes implements Stringable
 		return $this->set($name, ...$arguments);
 	}
 
-	public function __toString()
+	public function __toString(): string
 	{
 		return (string)Html::attr(
 			array_map(fn ($item) => $item->value(), $this->data),

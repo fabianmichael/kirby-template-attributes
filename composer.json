@@ -31,9 +31,11 @@
 		"test": "phpunit --stderr",
 		"analyze": [
 			"@analyze:composer",
+			"@analyze:psalm",
 			"@analyze:phpmd"
 		],
 		"analyze:composer": "composer validate --strict --no-check-version --no-check-all",
+		"analyze:psalm": "psalm",
 		"analyze:phpmd": "phpmd . ansi phpmd.xml.dist --exclude 'tests/*,vendor/*'"
 	},
 	"extra": {
@@ -43,6 +45,7 @@
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.13",
 		"phpunit/phpunit": "^9",
-		"phpmd/phpmd" : "@stable"
+		"phpmd/phpmd" : "@stable",
+		"vimeo/psalm": "^5.1"
 	}
 }
