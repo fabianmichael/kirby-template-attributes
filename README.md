@@ -32,8 +32,8 @@ The plugin provides 2 helpers functions as entry points:
 # site/snippets/button.php
 
 <button <?= attributes([
-	'role' => 'button',
-	'aria-expanded' => 'false',
+  'role' => 'button',
+  'aria-expanded' => 'false',
 ]) ?>>[…]</button>
 ```
 
@@ -41,8 +41,8 @@ The plugin provides 2 helpers functions as entry points:
 # site/snippets/button.php
 
 <button <?= classes([
-	'button',
-	'button--red' => $color === 'red', // class will only appear in class attribute, if condition is true
+  'button',
+  'button--red' => $color === 'red', // class will only appear in class attribute, if condition is true
 ]) ?>>[…]</button>
 ```
 
@@ -52,21 +52,21 @@ The plugin provides 2 helpers functions as entry points:
 # site/snippets/button.php
 
 <button <?= attributes([
-	'class' => 'button',
-	'role' => 'button',
-	'aria-expanded' => 'false',
-	'style' => '--foo: bar',
+  'class' => 'button',
+  'role' => 'button',
+  'aria-expanded' => 'false',
+  'style' => '--foo: bar',
 ])->merge($attr ?? []) ?>>[…]</button>
 
 # site/templates/default.php
 
 <?php snippet('button', [
-	'attr' => [
-		'role' => 'unicorn', // attributes can be overridden
-		'onclick' => 'alert("everyone likes alerts!!!")',
-		'class' => 'absolute top-0 left-0', // classes are automatically appended to the existing attribute value
-		'style' => '--bar: foo', // style attribute value is also appended to the original value
-	],
+  'attr' => [
+    'role' => 'unicorn', // attributes can be overridden
+    'onclick' => 'alert("everyone likes alerts!!!")',
+    'class' => 'absolute top-0 left-0', // classes are automatically appended to the existing attribute value
+    'style' => '--bar: foo', // style attribute value is also appended to the original value
+  ],
 ]) ?>
 ```
 
