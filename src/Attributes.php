@@ -19,24 +19,7 @@ class Attributes implements Stringable
 
 	public function __construct(...$data)
 	{
-		if (count($data) === 1 && array_key_first($data) === 0) {
-			// Array input
-			$data = $data[0];
-		} elseif (A::isAssociative($data)) {
-			// Named arguments, convert camelCase to kebab-case
-			$data = array_combine(
-				array_map(fn ($key) => Str::kebab($key), array_keys($data)),
-				array_values($data)
-			);
-		}
-
-		if (is_a($data, self::class)) {
-			$data = $data->data;
-		}
-
-		foreach ($data as $name => $value) {
-			$this->set($name, $value);
-		}
+		$this->merge(...$data);
 	}
 
 	/**
@@ -91,9 +74,24 @@ class Attributes implements Stringable
 		return $this->data[$name] ?? null;
 	}
 
-	public function merge(array|self $data = []): static
+	public function merge(...$data): static
 	{
-		$data = is_a($data, static::class) ? $data->data : $data;
+		if (count($data) === 1 && array_key_first($data) === 0) {
+			// Array input
+			$data = $data[0];
+		}
+
+		if (A::isAssociative($data)) {
+			// Named arguments, convert camelCase to kebab-case
+			$data = array_combine(
+				array_map(fn ($key) => Str::kebab($key), array_keys($data)),
+				array_values($data)
+			);
+		}
+
+		if (is_a($data, self::class)) {
+			$data = $data->data;
+		}
 
 		foreach ($data as $name => $value) {
 			$this->set($name, $value);
@@ -134,7 +132,7 @@ class Attributes implements Stringable
 
 	public static function normalizeStyleValue(array|string $styles): string
 	{
-		return is_array($styles) ? implode('; ', $styles): $styles;
+		return is_array($styles) ? implode('; ', $styles) : $styles;
 	}
 
 	public function set(string $name, mixed $value): static
@@ -176,5 +174,4 @@ class Attributes implements Stringable
 			after: $this->after
 		);
 	}
-
 }

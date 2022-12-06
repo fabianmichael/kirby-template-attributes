@@ -22,10 +22,10 @@ class AttributesTest extends TestCase
 		$attr = new Attributes(
 			foo: 'bar',
 			bar: 'foo',
-			kebabCase: 'kebab'
+			kebabCase: 'baz'
 		);
 
-		$this->assertEquals((string)$attr, 'bar="foo" foo="bar" kebab-case="kebab"');
+		$this->assertEquals((string)$attr, 'bar="foo" foo="bar" kebab-case="baz"');
 	}
 
 	public function testAfter(): void
@@ -42,19 +42,22 @@ class AttributesTest extends TestCase
 		$this->assertEquals((string)$attr, ' foo="bar"');
 	}
 
-	public function testCreateClassValue(): void {
+	public function testCreateClassValue(): void
+	{
 		$value = $this->_callProtectedStaticMethod('createClassValue', 'foo bar');
 
 		$this->assertEquals((string)$value, 'foo bar');
 	}
 
-	public function testNormalizeClassValueFromNumericArray(): void {
+	public function testNormalizeClassValueFromNumericArray(): void
+	{
 		$value = $this->_callProtectedStaticMethod('normalizeClassValue', ['foo', 'bar']);
 
 		$this->assertEquals((string)$value, 'foo bar');
 	}
 
-	public function testNormalizeClassValueFromConditionalArray(): void {
+	public function testNormalizeClassValueFromConditionalArray(): void
+	{
 		$value = $this->_callProtectedStaticMethod('normalizeClassValue', [
 			'foo' => true,
 			'bar' => false,
@@ -64,7 +67,8 @@ class AttributesTest extends TestCase
 		$this->assertEquals((string)$value, 'foo baz');
 	}
 
-	public function testMergeClassAttribute(): void {
+	public function testMergeClassAttribute(): void
+	{
 		$attr = new Attributes(['class' => 'foo']);
 		$attr = $attr->merge(['class' => 'bar']);
 		$attr = $attr->class('baz');
@@ -72,29 +76,33 @@ class AttributesTest extends TestCase
 		$this->assertEquals((string)$attr, 'class="foo bar baz"');
 	}
 
-	public function testRepeatedSetClassAttribute(): void {
+	public function testRepeatedSetClassAttribute(): void
+	{
 		$attr = new Attributes(['class' => 'foo']);
 		$attr = $attr->class('bar');
 
 		$this->assertEquals((string)$attr, 'class="foo bar"');
 	}
 
-	public function testCreateStyleValue(): void {
+	public function testCreateStyleValue(): void
+	{
 		$value = $this->_callProtectedStaticMethod('createStyleValue', 'foo: bar; bar: foo;');
 
 		$this->assertEquals((string)$value, 'foo: bar; bar: foo;');
 	}
 
-	public function testNormalizeStyleValue(): void {
+	public function testNormalizeStyleValue(): void
+	{
 		$value = $this->_callProtectedStaticMethod('normalizeStyleValue', [
-		'foo: bar',
+			'foo: bar',
 			'bar: foo',
 		]);
 
 		$this->assertEquals((string)$value, 'foo: bar; bar: foo');
 	}
 
-	public function testMergeStyleAttribute(): void {
+	public function testMergeStyleAttribute(): void
+	{
 		$attr = new Attributes(['style' => 'foo: bar']);
 		$attr = $attr->merge(['style' => 'bar: foo']);
 		$attr = $attr->style('baz: qux');
