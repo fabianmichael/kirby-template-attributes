@@ -2,7 +2,7 @@
 
 **Better attribute API for snippets and templates**
 
-This plugin brings Vue.js/Laravel-Blade-like attribute composition to the templates of your kirb yproject. This is an exploration in search of better HTML attribute handling for nested snippets and components.
+This plugin brings [Vue.js](https://vuejs.org/)/[Laravel-Blade](https://laravel.com/docs/9.x/blade#components)-like attribute composition to the templates of your Kirby yproject. This is an exploration in search of better HTML attribute handling for nested snippets and components.
 
 **⚠️ Work-in-progress, use at your own risk ⚠️**
 
