@@ -11,7 +11,7 @@ use Stringable;
  * and provides various utilities for merging and joinging attribute
  * values.
  */
-class Attribute implements Stringable
+class AttributeValue implements Stringable
 {
 	public const DEFAULT_SEPARATOR = ' ';
 
@@ -30,11 +30,13 @@ class Attribute implements Stringable
 			$this->value = $value->value;
 			$this->mergeStrategy = $mergeStrategy ?? $value->mergeStrategy;
 			$this->separator = $separator ?? $value->separator ?? static::DEFAULT_SEPARATOR;
-		} else {
-			$this->value = $value;
-			$this->mergeStrategy = $mergeStrategy;
-			$this->separator = $separator ?? static::DEFAULT_SEPARATOR;
+
+			return;
 		}
+
+		$this->value = $value;
+		$this->mergeStrategy = $mergeStrategy;
+		$this->separator = $separator ?? static::DEFAULT_SEPARATOR;
 	}
 
 	/**

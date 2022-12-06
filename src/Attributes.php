@@ -39,32 +39,50 @@ class Attributes implements Stringable
 		}
 	}
 
-	public static function createClassAttribute(mixed $value): Attribute
+	/**
+	 * Getter/Setter for the suffix appended when casting to string
+	 */
+	public function after(string|null $after = null): static|string|null
 	{
-		return new Attribute($value, MergeStrategy::APPEND, ' ');
+		if (func_num_args() === 0) {
+			return $this->after;
+		}
+
+		$this->after = $after;
+
+		return $this;
 	}
 
-	public static function createStyleAttribute(mixed $value): Attribute
+	public function append(mixed $value, ?string $separator = null): AttributeValue
 	{
-		return new Attribute($value, MergeStrategy::APPEND, '; ');
+		return new AttributeValue($value, MergeStrategy::APPEND, $separator);
 	}
 
-	public function append(mixed $value): Attribute
+	/**
+	 * Getter/Setter for the prefix prepended when casting to string
+	 */
+	public function before(string|null $before = null): static|string|null
 	{
-		return new Attribute($value, MergeStrategy::APPEND);
+		if (func_num_args() === 0) {
+			return $this->before;
+		}
+
+		$this->before = $before;
+
+		return $this;
 	}
 
-	public function prepend(mixed $value): Attribute
+	protected static function createClassValue(string $value): AttributeValue
 	{
-		return new Attribute($value, MergeStrategy::PREPEND);
+		return new AttributeValue($value, MergeStrategy::APPEND, ' ');
 	}
 
-	public function protect(mixed $value): Attribute
+	protected static function createStyleValue(string $value): AttributeValue
 	{
-		return new Attribute($value, MergeStrategy::PROTECT);
+		return new AttributeValue($value, MergeStrategy::APPEND, '; ');
 	}
 
-	public function get(?string $name = null): Attribute|array|null
+	public function get(?string $name = null): AttributeValue|array|null
 	{
 		if (is_null($name)) {
 			return $this->data;
@@ -84,37 +102,22 @@ class Attributes implements Stringable
 		return $this;
 	}
 
-	public function set(string $name, mixed $value): static
+	public function prepend(mixed $value, ?string $separator = null): AttributeValue
 	{
-		$method = 'resolve' . ucfirst($name);
-		if (method_exists(static::class, $method)) {
-			// If a resolve method for this attribute exists, execute
-			// it first.
-			$value = static::$method($value);
-		}
+		return new AttributeValue($value, MergeStrategy::PREPEND, $separator);
+	}
 
-		if (array_key_exists($name, $this->data)) {
-			// Merge with existing attribute
-			$this->data[$name] = $this->data[$name]->merge($value);
-		} elseif (is_a($value, Attribute::class)) {
-			$this->data[$name] = $value;
-		} else {
-			// Set new attribute
-			$method = 'create' . ucfirst($name) . 'Attribute';
-			$this->data[$name] = method_exists(static::class, $method)
-				? static::$method($value)
-				: new Attribute($value);
-		}
-
-		return $this;
+	public function protect(mixed $value): AttributeValue
+	{
+		return new AttributeValue($value, MergeStrategy::PROTECT);
 	}
 
 	/**
-	 * Resolves an array of class names to a string, e.g.
+	 * normalizes an array of class names to a string, e.g.
 	 * array(['button', 'is-disabled' => false]) => "button"
 	 * array(['button', 'is-disabled' => true]) => "button is-disabled"
 	 */
-	public static function resolveClass(array|string $classes): string
+	public static function normalizeClassValue(array|string $classes): string
 	{
 		$value = [];
 
@@ -129,32 +132,40 @@ class Attributes implements Stringable
 		return implode(' ', array_unique($value));
 	}
 
-	/**
-	 * Getter/Setter for the prefix prepended when casting to string
-	 */
-	public function before(string|null $before = null): static|string|null
+	public static function normalizeStyleValue(array|string $styles): string
 	{
-		if (func_num_args() === 0) {
-			return $this->before;
+		return is_array($styles) ? implode('; ', $styles): $styles;
+	}
+
+	public function set(string $name, mixed $value): static
+	{
+		if (method_exists(static::class, $method = 'normalize' . ucfirst($name) . 'Value')) {
+			$value = static::$method($value);
 		}
 
-		$this->before = $before;
+		if (array_key_exists($name, $this->data)) {
+			// Merge with existing attribute
+			$this->data[$name] = $this->data[$name]->merge($value);
+		} elseif (is_a($value, Attribute::class)) {
+			$this->data[$name] = $value;
+		} else {
+			// Set new attribute
+			$method = 'create' . ucfirst($name) . 'Value';
+			$this->data[$name] = method_exists(static::class, $method)
+				? static::$method($value)
+				: new AttributeValue($value);
+		}
 
 		return $this;
 	}
 
-	/**
-	 * Getter/Setter for the suffix appended when casting to string
-	 */
-	public function after(string|null $after = null): static|string|null
+	public function __call(string $name, array $arguments): self
 	{
-		if (func_num_args() === 0) {
-			return $this->after;
+		if (func_num_args() === 1) {
+			return $this->get($name);
 		}
 
-		$this->before = $after;
-
-		return $this;
+		return $this->set($name, ...$arguments);
 	}
 
 	public function __toString()
@@ -166,9 +177,4 @@ class Attributes implements Stringable
 		);
 	}
 
-
-	public function __call(string $name, array $args = []): self
-	{
-		return $this->set($name, ...$args);
-	}
 }
