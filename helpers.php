@@ -1,6 +1,7 @@
 <?php
 
 use FabianMichael\TemplateAttributes\Attributes;
+use Kirby\Toolkit\A;
 
 /**
  * Generates an attribuets object for further manipulation or echoing as string
@@ -18,7 +19,9 @@ function attributes(...$args): Attributes
  *
  * @return \FabianMichael\TemplateAttributes\Attributes
  */
-function classes(array|string $classes = []): Attributes
+function classes(...$classes): Attributes
 {
+	$classes = array_reduce($classes, fn ($carry, $item) => array_merge($carry, A::wrap($item)), []);
+
 	return attributes()->class($classes);
 }
