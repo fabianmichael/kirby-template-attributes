@@ -21,7 +21,12 @@ function attributes(...$args): Attributes
  */
 function classes(...$classes): Attributes
 {
-	$classes = array_reduce($classes, fn ($carry, $item) => array_merge($carry, A::wrap($item)), []);
+	// flatten array inputs
+	$classes = array_reduce(
+		$classes,
+		fn ($carry, $item) => array_merge($carry, A::wrap($item)),
+		[]
+	);
 
 	return attributes()->class($classes);
 }

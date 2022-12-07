@@ -52,6 +52,14 @@ In many cases, you need to set different classes. The `classes()` helper is a ni
 ]) ?>>[…]</button>
 ```
 
+The `classes()` helper is pretty flexible and also accepts multiple paramaters, each of those can eithe be a string or array (but please ensure to write readible code anyways):
+
+```php
+<button <?= classes('button', [
+  'button--red' => $color === 'red',
+], 'absolute', 'top-0 left-0') ?>>[…]</button>
+```
+
 ## Merging attributes
 
 ```php
