@@ -81,16 +81,14 @@ class Attributes implements Stringable
 			$data = $data[0];
 		}
 
-		if (A::isAssociative($data)) {
+		if (is_a($data, self::class)) {
+			$data = $data->data;
+		} else if (is_array($data) && A::isAssociative($data)) {
 			// Named arguments, convert camelCase to kebab-case
 			$data = array_combine(
 				array_map(fn ($key) => Str::kebab($key), array_keys($data)),
 				array_values($data)
 			);
-		}
-
-		if (is_a($data, self::class)) {
-			$data = $data->data;
 		}
 
 		foreach ($data as $name => $value) {
