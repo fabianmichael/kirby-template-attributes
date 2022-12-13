@@ -77,18 +77,12 @@ class Attributes implements Stringable
 	public function merge(...$data): static
 	{
 		if (count($data) === 1 && array_key_first($data) === 0) {
-			// Array input
+			// Single array/object input
 			$data = $data[0];
 		}
 
 		if (is_a($data, self::class)) {
 			$data = $data->data;
-		} else if (is_array($data) && A::isAssociative($data)) {
-			// Named arguments, convert camelCase to kebab-case
-			$data = array_combine(
-				array_map(fn ($key) => Str::kebab($key), array_keys($data)),
-				array_values($data)
-			);
 		}
 
 		foreach ($data as $name => $value) {
@@ -162,6 +156,11 @@ class Attributes implements Stringable
 		}
 
 		return $this->set($name, ...$arguments);
+	}
+
+	public function __invoke(...$data): static
+	{
+		return $this->merge(...$data);
 	}
 
 	public function __toString(): string

@@ -22,10 +22,10 @@ class AttributesTest extends TestCase
 		$attr = new Attributes(
 			foo: 'bar',
 			bar: 'foo',
-			kebabCase: 'baz'
+			camelCase: 'baz'
 		);
 
-		$this->assertEquals((string)$attr, 'bar="foo" foo="bar" kebab-case="baz"');
+		$this->assertEquals((string)$attr, 'bar="foo" camelCase="baz" foo="bar"');
 	}
 
 	public function testAfter(): void
@@ -162,6 +162,12 @@ class AttributesTest extends TestCase
 		$attr->foo('baz');
 
 		$this->assertEquals($attr->get('foo')->value(), 'bar');
+	}
+
+	public function testInvoke(): void
+	{
+		$attr = (new Attributes())(foo: 'bar')(baz: 'qux');
+		$this->assertEquals((string)$attr, 'baz="qux" foo="bar"');
 	}
 
 	protected static function _callProtectedStaticMethod(string $name, ...$args): mixed
