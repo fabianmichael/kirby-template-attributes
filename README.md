@@ -78,7 +78,9 @@ The `classes()` helper is pretty flexible and also accepts multiple paramaters, 
   'attr' => [
     'role' => 'unicorn', // attributes can be overridden
     'onclick' => 'alert("everyone likes alerts!!!")',
-    'class' => 'absolute top-0 left-0', // classes are automatically appended to the existing attribute value
+    'class' => 'absolute top-0 left-0
+      md:left-4
+      xl:left-8', // classes are automatically appended to the existing attribute value and surplus whitespace is trimmed
     'style' => '--bar: foo', // style attribute value is also appended to the original value
   ],
 ]) ?>
