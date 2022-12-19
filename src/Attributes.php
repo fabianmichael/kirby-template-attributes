@@ -57,6 +57,8 @@ class Attributes implements Stringable
 
 	protected static function createClassValue(string $value): AttributeValue
 	{
+		$value = trim(preg_replace('/[\r\n\s]+/', ' ', $value));
+
 		return new AttributeValue($value, MergeStrategy::APPEND, ' ');
 	}
 

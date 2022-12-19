@@ -49,6 +49,16 @@ class AttributesTest extends TestCase
 		$this->assertEquals((string)$value, 'foo bar');
 	}
 
+	public function testCreateClassValueWhiteSurplusWhiteSpace(): void
+	{
+		$value = $this->_callProtectedStaticMethod('createClassValue', 'foo
+			bar    baz
+			qux
+			');
+
+		$this->assertEquals((string)$value, 'foo bar baz qux');
+	}
+
 	public function testNormalizeClassValueFromNumericArray(): void
 	{
 		$value = $this->_callProtectedStaticMethod('normalizeClassValue', ['foo', 'bar']);
