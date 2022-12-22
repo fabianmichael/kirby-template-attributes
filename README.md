@@ -39,8 +39,8 @@ You can also use named arguments if you prefer a leaner syntax:
 ```php 
 <svg <?= attributes(
   class: 'icon',
-	width: 16,
-	height: 16,
+  width: 16,
+  height: 16,
   viewBox: '0 0 16 16',
 ) ?>>[…]</svg>
 ```
