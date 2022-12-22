@@ -34,7 +34,7 @@ Use the `attributes()` helper for generating a string of attributes:
   'aria-expanded' => 'false',
 ]) ?>>[…]</button>
 ```
-You can also use named arguments if you prefer a leaner syntax:
+You can also use named arguments if you prefer a leaner syntax. Be aware, that this only works as long as you don’t have dashes in your attribute names:
 
 ```php 
 <svg <?= attributes(
