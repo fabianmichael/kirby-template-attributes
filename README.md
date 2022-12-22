@@ -37,10 +37,12 @@ Use the `attributes()` helper for generating a string of attributes:
 You can also use named arguments if you prefer a leaner syntax:
 
 ```php 
-<button <?= attributes(
-  role: 'button',
-  ariaExpanded: 'false', // camelCase is converted to kebap-case
-) ?>>[…]</button>
+<svg <?= attributes(
+  class: 'icon',
+	width: 16,
+	height: 16,
+  viewBox: '0 0 16 16',
+) ?>>[…]</svg>
 ```
 
 In many cases, you need to set different classes. The `classes()` helper is a nice shortcut for improved readability:
