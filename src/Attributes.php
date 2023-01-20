@@ -5,6 +5,7 @@ namespace FabianMichael\TemplateAttributes;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Html;
 use Kirby\Toolkit\Str;
+use Kirby\Toolkit\Xml;
 use Stringable;
 
 /**
@@ -165,12 +166,30 @@ class Attributes implements Stringable
 		return $this->merge(...$data);
 	}
 
-	public function __toString(): string
+	public function toHtml(): string|null
 	{
-		return (string)Html::attr(
+		return Html::attr(
 			array_map(fn ($item) => $item->value(), $this->data),
 			before: $this->before,
 			after: $this->after
 		);
+	}
+
+	public function toXml(): string|null
+	{
+		$attr = Xml::attr(
+			array_map(fn ($item) => $item->value(), $this->data),
+		);
+
+		if ($attr) {
+			return $this->before . $attr . $this->after;
+		}
+
+		return null;
+	}
+
+	public function __toString(): string
+	{
+		return $this->toHtml() ?? '';
 	}
 }
