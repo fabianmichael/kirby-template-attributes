@@ -56,14 +56,14 @@ class Attributes implements Stringable
 		return $this;
 	}
 
-	protected static function createClassValue(string $value): AttributeValue
+	protected static function createClassValue(string|null $value): AttributeValue
 	{
-		$value = trim(preg_replace('/[\r\n\s]+/', ' ', $value));
+		$value = ! is_null($value) ? trim(preg_replace('/[\r\n\s]+/', ' ', $value)) : null;
 
 		return new AttributeValue($value, MergeStrategy::APPEND, ' ');
 	}
 
-	protected static function createStyleValue(string $value): AttributeValue
+	protected static function createStyleValue(string|null $value): AttributeValue
 	{
 		return new AttributeValue($value, MergeStrategy::APPEND, '; ');
 	}
@@ -110,8 +110,12 @@ class Attributes implements Stringable
 	 * array(['button', 'is-disabled' => false]) => "button"
 	 * array(['button', 'is-disabled' => true]) => "button is-disabled"
 	 */
-	public static function normalizeClassValue(array|string $classes): string
+	public static function normalizeClassValue(array|string|null $classes): ?string
 	{
+		if (is_null($classes)) {
+			return null;
+		}
+
 		$value = [];
 
 		foreach (A::wrap($classes) as $key => $class) {
@@ -125,8 +129,12 @@ class Attributes implements Stringable
 		return implode(' ', array_unique($value));
 	}
 
-	public static function normalizeStyleValue(array|string $styles): string
+	public static function normalizeStyleValue(array|string|null $styles): ?string
 	{
+		// if (is_null($styles)) {
+		// 	return null;
+		// }
+
 		return is_array($styles) ? implode('; ', $styles) : $styles;
 	}
 

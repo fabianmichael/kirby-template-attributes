@@ -86,6 +86,13 @@ class AttributesTest extends TestCase
 		$this->assertSame((string)$value, 'foo bar');
 	}
 
+	public function testNullClassValue(): void
+	{
+		$attributes = new Attributes(class: null);
+		$this->assertSame($attributes->get('class')->value(), null);
+		$this->assertSame((string)$attributes, '');
+	}
+
 	public function testCreateClassValueWhiteSurplusWhiteSpace(): void
 	{
 		$value = $this->_callProtectedStaticMethod('createClassValue', 'foo
@@ -144,6 +151,12 @@ class AttributesTest extends TestCase
 		$value = $this->_callProtectedStaticMethod('createStyleValue', 'foo: bar; bar: foo;');
 
 		$this->assertSame((string)$value, 'foo: bar; bar: foo;');
+	}
+
+	public function testNullStyleValue(): void
+	{
+		$attributes = new Attributes(style: null);
+		$this->assertSame($attributes->get('style')->value(), null);
 	}
 
 	public function testNormalizeStyleValue(): void
