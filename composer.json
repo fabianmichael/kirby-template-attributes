@@ -3,7 +3,7 @@
 	"description": "Better HTML attribute handling for your snippets and templates.",
 	"license": "MIT",
 	"type": "kirby-plugin",
-	"version": "1.2.0",
+	"version": "1.2.2",
 	"authors": [
 		{
 			"name": "Fabian Michael",
