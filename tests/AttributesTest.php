@@ -2,12 +2,13 @@
 
 namespace FabianMichael\TemplateAttributes;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 class AttributesTest extends TestCase
 {
-	public function testConstrucorArray(): void
+	public function testConstructorArray(): void
 	{
 		$attr = new Attributes([
 			'foo' => 'bar',
@@ -43,7 +44,7 @@ class AttributesTest extends TestCase
 			'standalone'
 		]);
 
-		$this->assertSame($attr->toHtml(), 'foobar="baz" standalone');
+		$this->assertSame($attr->toHtml(), 'standalone foobar="baz"');
 	}
 
 	public function testEmptyInputArray(): void
@@ -62,7 +63,7 @@ class AttributesTest extends TestCase
 			'standalone'
 		]);
 
-		$this->assertSame($attr->toXml(), 'fooBar="baz" standalone="standalone"');
+		$this->assertSame($attr->toXml(), 'standalone="standalone" fooBar="baz"');
 	}
 
 	public function testAfter(): void
@@ -229,6 +230,47 @@ class AttributesTest extends TestCase
 		$attr = (new Attributes())(foo: 'bar')(baz: 'qux');
 		$this->assertSame((string)$attr, 'baz="qux" foo="bar"');
 	}
+
+	public function testOffsetGet(): void
+	{
+		$attr = new Attributes(foo: 'bar');
+		$this->assertSame((string)$attr['foo'], 'bar');
+	}
+
+	public function testOffsetGetNonExisting(): void
+	{
+		$attr = new Attributes(foo: 'bar');
+		$this->assertNull($attr['baz']);
+	}
+
+	public function testOffsetSet(): void
+	{
+		$attr = new Attributes();
+		$attr['foo'] = 'bar';
+		$this->assertSame((string)$attr, 'foo="bar"');
+	}
+
+
+	public function testOffsetSetInvalidKey(): void
+	{
+		$this->expectException(Exception::class);
+		$attr = new Attributes();
+		$attr[] = 'foo';
+	}
+
+	public function testOffsetExists(): void
+	{
+		$attr = new Attributes(foo: 'bar');
+		$this->assertTrue(isset($attr['foo']));
+	}
+
+	public function testOffsetUnset(): void
+	{
+		$attr = new Attributes(foo: 'bar');
+		unset($attr['foo']);
+		$this->assertSame((string)$attr, '');
+	}
+
 
 	protected static function _callProtectedStaticMethod(string $name, ...$args): mixed
 	{

@@ -2,6 +2,8 @@
 
 namespace FabianMichael\TemplateAttributes;
 
+use ArrayAccess;
+use Exception;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Html;
 use Kirby\Toolkit\Str;
@@ -12,7 +14,7 @@ use Stringable;
  * The `Attribute` class represents a set of HTML attributes intended
  * for rendering them as a string.
  */
-class Attributes implements Stringable
+class Attributes implements ArrayAccess, Stringable
 {
 	protected array $data = [];
 	protected ?string $before = null;
@@ -93,6 +95,30 @@ class Attributes implements Stringable
 		}
 
 		return $this;
+	}
+
+	public function offsetGet(mixed $offset): mixed
+	{
+		return $this->data[$offset] ?? null;
+	}
+
+	public function offsetExists(mixed $offset): bool
+	{
+		return array_key_exists($offset, $this->data);
+	}
+
+	public function offsetUnset(mixed $offset): void
+	{
+		unset($this->data[$offset]);
+	}
+
+	public function offsetSet(mixed $offset, mixed $value): void
+	{
+		if (is_null($offset)) {
+			throw new Exception('Appending to an attributes list without supplying an attribute name is not supported.');
+		}
+
+		$this->set($offset, $value);
 	}
 
 	public function prepend(mixed $value, ?string $separator = null): AttributeValue
