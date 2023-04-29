@@ -2,25 +2,22 @@
 
 **Better attribute API for snippets and templates**
 
-This plugin brings [Vue.js](https://vuejs.org)/[Laravel-Blade](https://laravel.com/docs/9.x/blade#components)-like attribute composition to the templates of your [Kirby](https://getkirby.com) yproject. This is an exploration in search of better HTML attribute handling for nested snippets and components.
-
-**⚠️ Work-in-progress, use at your own risk ⚠️**
-
+This plugin brings [Vue.js](https://vuejs.org)/[Laravel-Blade](https://laravel.com/docs/9.x/blade#components)-like attribute composition to the templates of your [Kirby project](https://getkirby.com). This is an exploration in search of better HTML attribute handling for nested snippets and components.
 
 ## Requirements
 
-- Kirby 3.8
+- Kirby 3.8+
 - PHP 8.1 (because of [Enumeration](https://www.php.net/manual/en/language.types.enumerations.php) support)
 
 ## Installation
 
-During this early development stage, installation only works via composer:
+The recommended is installation via composer.
 
 ```
 composer require fabianmichael/kirby-template-attributes
 ```
 
-Alternatively, if you want to contribute to the development of this plugin, you can install it via submodule or clone this repository and use it as a local composer dependency.
+Alternatively, you can also [download the plugin](https://github.com/fabianmichael/kirby-template-attributes/archive/main.zip) and install it manually by copying it to the `site/plugins/` folder of your website.
 
 ## Usage
 
@@ -37,13 +34,17 @@ Use the `attributes()` helper for generating a string of attributes:
 You can also use named arguments if you prefer a leaner syntax. Be aware, that this only works as long as you don’t have dashes in your attribute names:
 
 ```php 
-<svg <?= attributes(
+<img <?= attributes(
   class: 'icon',
   width: 16,
   height: 16,
-  viewBox: '0 0 16 16',
-) ?>>[…]</svg>
+  src: $image->url(),
+	alt: 'The funniest donkey ever!',
+) ?>>
 ```
+
+⚠️ If you need XML-compatible attributes, always call `$attributes->toXml()` instead of just echoing the `Attributes` object,
+because otherwise all attributes will be converted to lower-case.
 
 In many cases, you need to set different classes. The `classes()` helper is a nice shortcut for improved readability:
 
@@ -88,16 +89,13 @@ The `classes()` helper is pretty flexible and also accepts multiple paramaters, 
 ]) ?>
 ```
 
-## Custom merge strategies
-
-- Custom merge strategies for arbitrary attributes
-
-
 ## Before/After
 
+You can set `$before` and `$after`, just like for Kirby’s `Html::attr()` helper by using the corresponding methods:
+
 ```
-->before()
-->after()
+attributes(class: 'foo')->before(' ');
+attributes(class: 'foo')->after(' ');
 ```
 
 ## Examples
@@ -164,3 +162,8 @@ This is already cool and makes working with attributes for snippets much easier,
     ]) ?>
 </nav>
 ```
+
+
+## License
+
+MIT (but you are highly encouraged to **[❤️ sponsor me](https://github.com/sponsors/fabianmichael)**, if this piece of software helps you to pay your bills).
