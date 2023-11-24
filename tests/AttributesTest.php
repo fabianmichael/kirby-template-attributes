@@ -2,6 +2,7 @@
 
 namespace FabianMichael\TemplateAttributes;
 
+use Attribute;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -44,7 +45,7 @@ class AttributesTest extends TestCase
 			'standalone'
 		]);
 
-		$this->assertSame($attr->toHtml(), 'standalone foobar="baz"');
+		$this->assertSame($attr->toHtml(), 'foobar="baz" standalone');
 	}
 
 	public function testEmptyInputArray(): void
@@ -56,6 +57,16 @@ class AttributesTest extends TestCase
 		$this->assertSame((string)$attr, '');
 	}
 
+	// public function testEmptyAttributes(): void
+	// {
+	// 	$attr = new Attributes(['foo' => '']);
+	// 	dump($attr->get());
+	// 	$this->assertSame((string)$attr, 'foo=""');
+
+	// 	$attr = new Attributes(['foo']);
+	// 	$this->assertSame((string)$attr, 'foo');
+	// }
+
 	public function testToXml(): void
 	{
 		$attr = new Attributes([
@@ -63,7 +74,7 @@ class AttributesTest extends TestCase
 			'standalone'
 		]);
 
-		$this->assertSame($attr->toXml(), 'standalone="standalone" fooBar="baz"');
+		$this->assertSame($attr->toXml(), 'fooBar="baz" standalone="standalone"');
 	}
 
 	public function testAfter(): void

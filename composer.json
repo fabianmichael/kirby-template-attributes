@@ -15,7 +15,7 @@
 		"phpunit/phpunit": "^9",
 		"phpmd/phpmd" : "@stable",
 		"vimeo/psalm": "^5.1",
-		"getkirby/cms": "^3.9"
+		"getkirby/cms": "^4.0.0-rc.2"
 	},
 	"require": {
 		"getkirby/composer-installer": "^1.2"
