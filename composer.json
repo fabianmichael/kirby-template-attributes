@@ -1,6 +1,7 @@
 {
 	"name": "fabianmichael/kirby-template-attributes",
 	"description": "Better HTML attribute handling for your snippets and templates.",
+	"homepage": "https://github.com/fabianmichael/kirby-template-attributes",
 	"license": "MIT",
 	"type": "kirby-plugin",
 	"version": "1.3.0",
