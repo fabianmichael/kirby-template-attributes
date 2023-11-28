@@ -53,11 +53,11 @@ class AttributeValue implements Stringable
 			// append or prepend strategy
 
 			if (is_a($attribute, self::class)) {
-				if (! is_null($attribute->mergeStrategy) && $attribute->mergeStrategy !== $this->mergeStrategy) {
+				if (!is_null($attribute->mergeStrategy) && $attribute->mergeStrategy !== $this->mergeStrategy) {
 					throw new Exception('Could not merge attribute values, because merge strategies do not match');
 				}
 
-				if (! is_null($attribute->separator) && $attribute->separator !== $this->separator) {
+				if (!is_null($attribute->separator) && $attribute->separator !== $this->separator) {
 					throw new Exception('Could not merge attribute values, because separators do not match');
 				}
 			}
@@ -69,7 +69,7 @@ class AttributeValue implements Stringable
 			$last = Str::afterStart((string)$last, $this->separator);
 
 			// synthesize new value
-			$value = array_filter([$first, $last], fn ($item) => ! empty($item));
+			$value = array_filter([$first, $last], fn ($item) => !empty($item));
 			$value = implode($this->separator, $value);
 
 			// return new instance

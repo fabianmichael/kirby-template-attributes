@@ -6,7 +6,6 @@ use ArrayAccess;
 use Exception;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Html;
-use Kirby\Toolkit\Str;
 use Kirby\Toolkit\Xml;
 use Stringable;
 
@@ -60,7 +59,7 @@ class Attributes implements ArrayAccess, Stringable
 
 	protected static function createClassValue(string|null $value): AttributeValue
 	{
-		$value = ! is_null($value) ? trim(preg_replace('/[\r\n\s]+/', ' ', $value)) : null;
+		$value = !is_null($value) ? trim(preg_replace('/[\r\n\s]+/', ' ', $value)) : null;
 
 		return new AttributeValue($value, MergeStrategy::APPEND, ' ');
 	}

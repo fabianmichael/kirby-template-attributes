@@ -2,8 +2,8 @@
 
 namespace FabianMichael\TemplateAttributes;
 
-use Attribute;
 use Exception;
+use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
@@ -57,15 +57,26 @@ class AttributesTest extends TestCase
 		$this->assertSame((string)$attr, '');
 	}
 
-	// public function testEmptyAttributes(): void
-	// {
-	// 	$attr = new Attributes(['foo' => '']);
-	// 	dump($attr->get());
-	// 	$this->assertSame((string)$attr, 'foo=""');
+	public function testEmptyAttributes(): void
+	{
+		$attr = new Attributes(['foo' => '']);
+		$this->assertSame((string)$attr, 'foo=""');
+		$this->assertSame((string)$attr->toXml(), 'foo=""');
 
-	// 	$attr = new Attributes(['foo']);
-	// 	$this->assertSame((string)$attr, 'foo');
-	// }
+		$attr = new Attributes(['foo']);
+		$this->assertSame((string)$attr, 'foo');
+		$this->assertSame((string)$attr->toXml(), 'foo="foo"');
+
+		$attr = new Attributes(['foo' => null, 'bar' => false]);
+		$this->assertSame((string)$attr, '');
+	}
+
+	public function testSingleSpaceAttribute(): void
+	{
+		// should trigger e deprecated error
+		@(string)(new Attributes(['foo' => ' ']));
+		$this->assertTrue(error_get_last() !== null);
+	}
 
 	public function testToXml(): void
 	{
