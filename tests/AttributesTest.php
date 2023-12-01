@@ -144,6 +144,22 @@ class AttributesTest extends TestCase
 		$this->assertSame((string)$value, 'foo baz');
 	}
 
+	public function testAttributesWithClassesArray(): void
+	{
+		$attr = new Attributes([
+			'foo' => 'bar',
+			'class' => [
+				'foo',
+				'bar' => true,
+				'baz' => false,
+			]
+		]);
+
+		echo $attr;
+
+		$this->assertSame((string)$attr, 'class="foo bar" foo="bar"');
+	}
+
 	public function testMerge(): void
 	{
 		$attr = new Attributes(foo: 'bar');
