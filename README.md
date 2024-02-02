@@ -131,10 +131,10 @@ This becomes even cooler, because the classes can be assigned conditionally as a
 ```php
 <?php
 
-$text = $text ?? 'Button text';
-$size = $size ?? 'normal';
-$theme = $theme ?? null;
-$attr = $attr ?? [];
+$text ??= 'Button text';
+$size ??= 'normal';
+$theme ??= null;
+$attr ??= [];
 
 ?>
 <button <?= attributes([
