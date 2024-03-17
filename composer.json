@@ -16,7 +16,7 @@
 		"phpunit/phpunit": "^9",
 		"phpmd/phpmd" : "@stable",
 		"vimeo/psalm": "^5.1",
-		"getkirby/cms": "^4.0.0",
+		"getkirby/cms": "^4.1.0",
 		"squizlabs/php_codesniffer": "^3.9"
 	},
 	"require": {

@@ -194,11 +194,6 @@ class Attributes implements ArrayAccess, Stringable
 		return $this->set($name, ...$arguments);
 	}
 
-	public function __invoke(...$data): static
-	{
-		return $this->merge(...$data);
-	}
-
 	public function toHtml(): string|null
 	{
 		return Html::attr(

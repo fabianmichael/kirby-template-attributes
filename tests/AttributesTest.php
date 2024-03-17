@@ -16,7 +16,7 @@ class AttributesTest extends TestCase
 			'bar' => 'foo'
 		]);
 
-		$this->assertSame((string)$attr, 'bar="foo" foo="bar"');
+		$this->assertSame((string) $attr, 'bar="foo" foo="bar"');
 	}
 
 	public function testConstrucorNamedArguments(): void
@@ -26,7 +26,7 @@ class AttributesTest extends TestCase
 			bar: 'foo',
 		);
 
-		$this->assertSame((string)$attr, 'bar="foo" foo="bar"');
+		$this->assertSame((string) $attr, 'bar="foo" foo="bar"');
 	}
 
 	public function testConversionToLowerCase(): void
@@ -35,17 +35,17 @@ class AttributesTest extends TestCase
 			fooBar: 'baz',
 		);
 
-		$this->assertSame((string)$attr, 'foobar="baz"');
+		$this->assertSame((string) $attr, 'foobar="baz"');
 	}
 
 	public function testToHtml(): void
 	{
 		$attr = new Attributes([
+			'standalone',
 			'fooBar' => 'baz',
-			'standalone'
 		]);
 
-		$this->assertSame($attr->toHtml(), 'foobar="baz" standalone');
+		$this->assertSame($attr->toHtml(), 'standalone foobar="baz"');
 	}
 
 	public function testEmptyInputArray(): void
@@ -54,27 +54,27 @@ class AttributesTest extends TestCase
 
 		$this->assertSame($attr->toHtml(), null);
 		$this->assertSame($attr->toXml(), null);
-		$this->assertSame((string)$attr, '');
+		$this->assertSame((string) $attr, '');
 	}
 
 	public function testEmptyAttributes(): void
 	{
 		$attr = new Attributes(['foo' => '']);
-		$this->assertSame((string)$attr, 'foo=""');
-		$this->assertSame((string)$attr->toXml(), 'foo=""');
+		$this->assertSame((string) $attr, 'foo=""');
+		$this->assertSame((string) $attr->toXml(), 'foo=""');
 
 		$attr = new Attributes(['foo']);
-		$this->assertSame((string)$attr, 'foo');
-		$this->assertSame((string)$attr->toXml(), 'foo="foo"');
+		$this->assertSame((string) $attr, 'foo');
+		$this->assertSame((string) $attr->toXml(), 'foo="foo"');
 
 		$attr = new Attributes(['foo' => null, 'bar' => false]);
-		$this->assertSame((string)$attr, '');
+		$this->assertSame((string) $attr, '');
 	}
 
 	public function testSingleSpaceAttribute(): void
 	{
 		// should trigger e deprecated error
-		@(string)(new Attributes(['foo' => ' ']));
+		@(string) (new Attributes(['foo' => ' ']));
 		$this->assertTrue(error_get_last() !== null);
 	}
 
@@ -85,35 +85,35 @@ class AttributesTest extends TestCase
 			'standalone'
 		]);
 
-		$this->assertSame($attr->toXml(), 'fooBar="baz" standalone="standalone"');
+		$this->assertSame($attr->toXml(), 'standalone="standalone" fooBar="baz"');
 	}
 
 	public function testAfter(): void
 	{
 		$attr = (new Attributes(foo: 'bar'))->after(' ');
 
-		$this->assertSame((string)$attr, 'foo="bar" ');
+		$this->assertSame((string) $attr, 'foo="bar" ');
 	}
 
 	public function testBefore(): void
 	{
 		$attr = (new Attributes(foo: 'bar'))->before(' ');
 
-		$this->assertSame((string)$attr, ' foo="bar"');
+		$this->assertSame((string) $attr, ' foo="bar"');
 	}
 
 	public function testCreateClassValue(): void
 	{
 		$value = $this->_callProtectedStaticMethod('createClassValue', 'foo bar');
 
-		$this->assertSame((string)$value, 'foo bar');
+		$this->assertSame((string) $value, 'foo bar');
 	}
 
 	public function testNullClassValue(): void
 	{
 		$attributes = new Attributes(class: null);
 		$this->assertSame($attributes->get('class')->value(), null);
-		$this->assertSame((string)$attributes, '');
+		$this->assertSame((string) $attributes, '');
 	}
 
 	public function testCreateClassValueWhiteSurplusWhiteSpace(): void
@@ -123,14 +123,14 @@ class AttributesTest extends TestCase
 			qux
 			');
 
-		$this->assertSame((string)$value, 'foo bar baz qux');
+		$this->assertSame((string) $value, 'foo bar baz qux');
 	}
 
 	public function testNormalizeClassValueFromNumericArray(): void
 	{
 		$value = $this->_callProtectedStaticMethod('normalizeClassValue', ['foo', 'bar']);
 
-		$this->assertSame((string)$value, 'foo bar');
+		$this->assertSame((string) $value, 'foo bar');
 	}
 
 	public function testNormalizeClassValueFromConditionalArray(): void
@@ -141,7 +141,7 @@ class AttributesTest extends TestCase
 			'baz'
 		]);
 
-		$this->assertSame((string)$value, 'foo baz');
+		$this->assertSame((string) $value, 'foo baz');
 	}
 
 	public function testAttributesWithClassesArray(): void
@@ -155,9 +155,7 @@ class AttributesTest extends TestCase
 			]
 		]);
 
-		echo $attr;
-
-		$this->assertSame((string)$attr, 'class="foo bar" foo="bar"');
+		$this->assertSame((string) $attr, 'class="foo bar" foo="bar"');
 	}
 
 	public function testMerge(): void
@@ -165,7 +163,7 @@ class AttributesTest extends TestCase
 		$attr = new Attributes(foo: 'bar');
 		$attr = $attr->merge(bar: 'foo');
 
-		$this->assertSame((string)$attr, 'bar="foo" foo="bar"');
+		$this->assertSame((string) $attr, 'bar="foo" foo="bar"');
 	}
 
 	public function testMergeClassAttribute(): void
@@ -174,7 +172,7 @@ class AttributesTest extends TestCase
 		$attr = $attr->merge(['class' => 'bar']);
 		$attr = $attr->class('baz');
 
-		$this->assertSame((string)$attr, 'class="foo bar baz"');
+		$this->assertSame((string) $attr, 'class="foo bar baz"');
 	}
 
 	public function testRepeatedSetClassAttribute(): void
@@ -182,14 +180,14 @@ class AttributesTest extends TestCase
 		$attr = new Attributes(['class' => 'foo']);
 		$attr = $attr->class('bar');
 
-		$this->assertSame((string)$attr, 'class="foo bar"');
+		$this->assertSame((string) $attr, 'class="foo bar"');
 	}
 
 	public function testCreateStyleValue(): void
 	{
 		$value = $this->_callProtectedStaticMethod('createStyleValue', 'foo: bar; bar: foo;');
 
-		$this->assertSame((string)$value, 'foo: bar; bar: foo;');
+		$this->assertSame((string) $value, 'foo: bar; bar: foo;');
 	}
 
 	public function testNullStyleValue(): void
@@ -205,7 +203,7 @@ class AttributesTest extends TestCase
 			'bar: foo',
 		]);
 
-		$this->assertSame((string)$value, 'foo: bar; bar: foo');
+		$this->assertSame((string) $value, 'foo: bar; bar: foo');
 	}
 
 	public function testMergeStyleAttribute(): void
@@ -214,7 +212,7 @@ class AttributesTest extends TestCase
 		$attr = $attr->merge(['style' => 'bar: foo']);
 		$attr = $attr->style('baz: qux');
 
-		$this->assertSame((string)$attr, 'style="foo: bar; bar: foo; baz: qux"');
+		$this->assertSame((string) $attr, 'style="foo: bar; bar: foo; baz: qux"');
 	}
 
 	public function testGet(): void
@@ -233,7 +231,7 @@ class AttributesTest extends TestCase
 		$attr = $attr->baz('qux');
 		$attr = $attr->merge(['qux' => 'bar']);
 
-		$this->assertSame((string)$attr, 'baz="qux" foo="bar" qux="bar"');
+		$this->assertSame((string) $attr, 'baz="qux" foo="bar" qux="bar"');
 	}
 
 	public function testAppend(): void
@@ -263,16 +261,10 @@ class AttributesTest extends TestCase
 		$this->assertSame($attr->get('foo')->value(), 'bar');
 	}
 
-	public function testInvoke(): void
-	{
-		$attr = (new Attributes())(foo: 'bar')(baz: 'qux');
-		$this->assertSame((string)$attr, 'baz="qux" foo="bar"');
-	}
-
 	public function testOffsetGet(): void
 	{
 		$attr = new Attributes(foo: 'bar');
-		$this->assertSame((string)$attr['foo'], 'bar');
+		$this->assertSame((string) $attr['foo'], 'bar');
 	}
 
 	public function testOffsetGetNonExisting(): void
@@ -285,7 +277,7 @@ class AttributesTest extends TestCase
 	{
 		$attr = new Attributes();
 		$attr['foo'] = 'bar';
-		$this->assertSame((string)$attr, 'foo="bar"');
+		$this->assertSame((string) $attr, 'foo="bar"');
 	}
 
 
@@ -306,7 +298,7 @@ class AttributesTest extends TestCase
 	{
 		$attr = new Attributes(foo: 'bar');
 		unset($attr['foo']);
-		$this->assertSame((string)$attr, '');
+		$this->assertSame((string) $attr, '');
 	}
 
 
