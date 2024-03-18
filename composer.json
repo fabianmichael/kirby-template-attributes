@@ -25,7 +25,10 @@
 	"autoload": {
 		"psr-4": {
 			"FabianMichael\\TemplateAttributes\\": "src/"
-		}
+		},
+		"files": [
+			"helpers.php"
+		]
 	},
 	"config": {
 		"optimize-autoloader": true,
