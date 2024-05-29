@@ -139,6 +139,9 @@ $attr ??= [];
 ?>
 <button <?= attributes([
     'role' => 'button',
+    'style' => [
+      'font-size: 2rem;' => ($size === 'large'),
+    ],
 ])->class([
     'button',
     "button--{$size}",

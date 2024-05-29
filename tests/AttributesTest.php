@@ -158,6 +158,20 @@ class AttributesTest extends TestCase
 		$this->assertSame((string) $attr, 'class="foo bar" foo="bar"');
 	}
 
+	public function testAttributesWithStylesArray(): void
+	{
+		$attr = new Attributes([
+			'foo' => 'bar',
+			'style' => [
+				'font-size: 1rem;',
+				'line-height: 1.2' => true,
+				'line-height: 1.5' => false,
+			]
+		]);
+
+		$this->assertSame((string) $attr, 'foo="bar" style="font-size: 1rem; line-height: 1.2"');
+	}
+
 	public function testMerge(): void
 	{
 		$attr = new Attributes(foo: 'bar');

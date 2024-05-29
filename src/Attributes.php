@@ -154,13 +154,29 @@ class Attributes implements ArrayAccess, Stringable
 		return implode(' ', array_unique($value));
 	}
 
+		/**
+	 * normalizes an array of class names to a string, e.g.
+	 * array(['font-size: 1rem', 'color: red' => false]) => "font-size: 1rem;"
+	 * array(['font-size: 1rem', 'color: red' => true]) => "font-size: 1rem; color: red"
+	 */
 	public static function normalizeStyleValue(array|string|null $styles): ?string
 	{
-		// if (is_null($styles)) {
-		// 	return null;
-		// }
+		if (is_null($styles)) {
+			return null;
+		}
 
-		return is_array($styles) ? implode('; ', $styles) : $styles;
+		$styles = A::wrap($styles);
+		$value = [];
+
+		foreach ($styles as $key => $property) {
+			if (is_numeric($key)) {
+				$value[] = $property;
+			} elseif ($property) {
+				$value[] = $key;
+			}
+		}
+
+		return implode('; ', array_map(fn($v) => trim($v, '; '), $value));
 	}
 
 	public function set(string $name, mixed $value): static
