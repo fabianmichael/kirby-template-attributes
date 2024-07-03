@@ -20,7 +20,8 @@
 		"squizlabs/php_codesniffer": "^3.9"
 	},
 	"require": {
-		"getkirby/composer-installer": "^1.2"
+		"getkirby/composer-installer": "^1.2",
+		"ext-dom": "*"
 	},
 	"autoload": {
 		"psr-4": {
