@@ -19,6 +19,15 @@ class AttributesTest extends TestCase
 		$this->assertSame((string) $attr, 'bar="foo" foo="bar"');
 	}
 
+	public function testConstructorSingleNamedArgument(): void
+	{
+		$attr = new Attributes(
+			bar: 'foo',
+		);
+
+		$this->assertSame((string) $attr, 'bar="foo"');
+	}
+
 	public function testConstrucorNamedArguments(): void
 	{
 		$attr = new Attributes(
@@ -27,6 +36,20 @@ class AttributesTest extends TestCase
 		);
 
 		$this->assertSame((string) $attr, 'bar="foo" foo="bar"');
+	}
+
+	public function testConstructFromAttributesString(): void
+	{
+		$attr = new Attributes('foo="bar" bar="foo"');
+
+		$this->assertSame((string) $attr, 'bar="foo" foo="bar"');
+	}
+
+	public function testConstructFromAttributesStringWithBooleanAttributes(): void
+	{
+		$attr = new Attributes('novalidate inert unknown-boolean');
+
+		$this->assertSame((string) $attr, 'inert novalidate unknown-boolean=""');
 	}
 
 	public function testConversionToLowerCase(): void
