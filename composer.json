@@ -4,7 +4,7 @@
 	"homepage": "https://github.com/fabianmichael/kirby-template-attributes",
 	"license": "MIT",
 	"type": "kirby-plugin",
-	"version": "2.2.0",
+	"version": "2.3.0",
 	"authors": [
 		{
 			"name": "Fabian Michael",
