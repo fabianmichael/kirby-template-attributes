@@ -4,7 +4,7 @@
 	"homepage": "https://github.com/fabianmichael/kirby-template-attributes",
 	"license": "MIT",
 	"type": "kirby-plugin",
-	"version": "2.2.0",
+	"version": "2.3.0",
 	"authors": [
 		{
 			"name": "Fabian Michael",
@@ -20,7 +20,8 @@
 		"squizlabs/php_codesniffer": "^3.9"
 	},
 	"require": {
-		"getkirby/composer-installer": "^1.2"
+		"getkirby/composer-installer": "^1.2",
+		"ext-dom": "*"
 	},
 	"autoload": {
 		"psr-4": {

@@ -43,8 +43,24 @@ You can also use named arguments if you prefer a leaner syntax. Be aware, that t
 ) ?>>
 ```
 
-⚠️ If you need XML-compatible attributes, always call `$attributes->toXml()` instead of just echoing the `Attributes` object,
-because otherwise all attributes will be converted to lower-case.
+Or if all you have is an attributes string, you can also feed the that to the `attributes()` helper:
+
+```php
+<?php
+
+// get image dimensions as height="yyy" width="xxx" 
+$src  = 'img.png';
+$size = getimagesize($src)[3];
+
+?>
+
+<img <?= attributes($size)->merge([
+	'src' => $src,
+	'alt' => '',
+]) ?>>
+```
+
+⚠️ If you need XML-compatible attributes, always call `$attributes->toXml()` instead of just echoing the `Attributes` object, because otherwise all attributes will be converted to lower-case.
 
 In many cases, you need to set different classes. The `classes()` helper is a nice shortcut for improved readability:
 

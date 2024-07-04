@@ -3,6 +3,7 @@
 namespace FabianMichael\TemplateAttributes;
 
 use ArrayAccess;
+use DOMDocument;
 use Exception;
 use Kirby\Toolkit\A;
 use Kirby\Toolkit\Html;
@@ -18,6 +19,38 @@ class Attributes implements ArrayAccess, Stringable
 	protected array $data = [];
 	protected ?string $before = null;
 	protected ?string $after = null;
+
+	// see https://html.spec.whatwg.org/multipage/indices.html#attributes-3
+	public static array $booleanAttributes = [
+		'allowfullscreen',
+		'async',
+		'autofocus',
+		'autoplay',
+		'checked',
+		'controls',
+		'default',
+		'defer',
+		'disabled',
+		'formnovalidate',
+		'hidden', // not a boolean attribute, but can be used like one
+		'inert',
+		'ismap',
+		'itemscope',
+		'loop',
+		'multiple',
+		'muted',
+		'nomodule',
+		'novalidate',
+		'open',
+		'playsinline',
+		'readonly',
+		'required',
+		'reversed',
+		'selected',
+		'shadowrootclonable',
+		'shadowrootdelegatesfocus',
+		'shadowrootserializable',
+	];
 
 	public function __construct(...$data)
 	{
@@ -81,12 +114,17 @@ class Attributes implements ArrayAccess, Stringable
 	public function merge(...$data): static
 	{
 		if (count($data) === 1 && array_key_first($data) === 0) {
-			// Single array/object input
+			// single array/object input
 			$data = $data[0];
 		}
 
 		if (is_a($data, self::class)) {
+			// argument was another instance of Attributes
 			$data = $data->data;
+		}
+
+		if (is_string($data)) {
+			$data = static::parseAttributesString($data);
 		}
 
 		foreach ($data as $name => $value) {
@@ -235,5 +273,33 @@ class Attributes implements ArrayAccess, Stringable
 	public function __toString(): string
 	{
 		return $this->toHtml() ?? '';
+	}
+
+	protected static function parseAttributesString(string $str): array
+	{
+		$tagName = 'yolo';
+		$errorsBefore = libxml_use_internal_errors();
+		$attr = [];
+
+		libxml_use_internal_errors(true);
+		$dom = new DOMDocument();
+		$dom->loadHTML("<{$tagName} {$str}>");
+		$node = $dom->getElementsByTagName($tagName)->item(0);
+		if ($node->hasAttributes()) {
+			foreach ($node->attributes as $attribute) {
+				$name = $attribute->nodeName;
+				$value = $attribute->nodeValue;
+
+				if (in_array($value, ['', $name]) && in_array($name, static::$booleanAttributes)) {
+					// convert known boolean attributes to bool
+					$value = true;
+				}
+
+				$attr[$name] = $value;
+			}
+		}
+
+		libxml_use_internal_errors($errorsBefore);
+		return $attr;
 	}
 }
