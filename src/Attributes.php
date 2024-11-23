@@ -189,10 +189,14 @@ class Attributes implements ArrayAccess, Stringable
 			}
 		}
 
+		if (count($value) === 0) {
+			return null;
+		}
+
 		return implode(' ', array_unique($value));
 	}
 
-		/**
+	/**
 	 * normalizes an array of class names to a string, e.g.
 	 * array(['font-size: 1rem', 'color: red' => false]) => "font-size: 1rem;"
 	 * array(['font-size: 1rem', 'color: red' => true]) => "font-size: 1rem; color: red"
@@ -212,6 +216,10 @@ class Attributes implements ArrayAccess, Stringable
 			} elseif ($property) {
 				$value[] = $key;
 			}
+		}
+
+		if (count($value) === 0) {
+			return null;
 		}
 
 		return implode('; ', array_map(fn($v) => trim($v, '; '), $value));
