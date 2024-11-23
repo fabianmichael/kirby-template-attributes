@@ -2,6 +2,7 @@
 
 namespace FabianMichael\TemplateAttributes;
 
+use Attribute;
 use Exception;
 use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
@@ -136,6 +137,20 @@ class AttributesTest extends TestCase
 	{
 		$attributes = new Attributes(class: null);
 		$this->assertSame($attributes->get('class')->value(), null);
+		$this->assertSame((string) $attributes, '');
+	}
+
+	public function testEmptyArrayClassValue(): void
+	{
+		$attributes = new Attributes(class: []);
+		$this->assertSame($attributes->get('class')->value(), null);
+		$this->assertSame((string) $attributes, '');
+	}
+
+	public function testEmptyArrayStyleValue(): void
+	{
+		$attributes = new Attributes(style: []);
+		$this->assertSame($attributes->get('style')->value(), null);
 		$this->assertSame((string) $attributes, '');
 	}
 
