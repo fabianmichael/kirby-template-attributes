@@ -332,7 +332,6 @@ class AttributesTest extends TestCase
 		$this->assertSame((string) $attr, 'foo="bar"');
 	}
 
-
 	public function testOffsetSetInvalidKey(): void
 	{
 		$this->expectException(Exception::class);
@@ -353,12 +352,34 @@ class AttributesTest extends TestCase
 		$this->assertSame((string) $attr, '');
 	}
 
-
 	protected static function _callProtectedStaticMethod(string $name, ...$args): mixed
 	{
 		$class = new ReflectionClass(Attributes::class);
 		$method = $class->getMethod($name);
 		$method->setAccessible(true);
 		return $method->invoke(null, ...$args);
+	}
+
+	public function testInvoke(): void
+	{
+		$attr = (new Attributes())(foo: 'bar')(baz: 'qux');
+		$this->assertSame((string)$attr, 'baz="qux" foo="bar"');
+	}
+
+	public function testInvokeMerge(): void
+	{
+		$attr = new Attributes(foo: 'bar');
+		$attr = $attr(foo: 'baz');
+		$this->assertSame((string)$attr, 'foo="bar"');
+	}
+
+	public function testIsCallable(): void
+	{
+		$attr = (new Attributes());
+		$attr = $attr('foo=bar');
+
+		$this->assertTrue(is_callable($attr));
+		$this->assertTrue(is_object($attr));
+		$this->assertSame((string) $attr, 'foo="bar"');
 	}
 }
