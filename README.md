@@ -6,8 +6,8 @@ This plugin brings [Vue.js](https://vuejs.org)/[Laravel-Blade](https://laravel.c
 
 ## Requirements
 
-- Kirby 4.0+ (use version 1.x for Kirby 3 installations)
-- PHP 8.1 (because of [Enumeration](https://www.php.net/manual/en/language.types.enumerations.php) support)
+- Kirby 4/5 (use version 1.x for Kirby 3 installations)
+- PHP 8.3 (because of [Enumeration](https://www.php.net/manual/en/language.types.enumerations.php) support)
 
 ## Installation
 
