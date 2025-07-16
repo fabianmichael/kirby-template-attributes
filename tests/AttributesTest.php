@@ -53,6 +53,15 @@ class AttributesTest extends TestCase
 		$this->assertSame((string) $attr, 'inert novalidate unknown-boolean=""');
 	}
 
+	public function testAttributesWithAdditionalBooleanVariant(): void
+	{
+		$attr = new Attributes('download');
+		$this->assertSame((string) $attr, 'download');
+
+		$attr = new Attributes('download="filename"');
+		$this->assertSame((string) $attr, 'download="filename"');
+	}
+
 	public function testConversionToLowerCase(): void
 	{
 		$attr = new Attributes(
