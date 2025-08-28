@@ -29,7 +29,7 @@ class AttributesTest extends TestCase
 		$this->assertSame((string) $attr, 'bar="foo"');
 	}
 
-	public function testConstrucorNamedArguments(): void
+	public function testConstructorNamedArguments(): void
 	{
 		$attr = new Attributes(
 			foo: 'bar',
