@@ -31,6 +31,7 @@ class Attributes implements ArrayAccess, Stringable
 		'default',
 		'defer',
 		'disabled',
+		'download', // can also be used with a value
 		'formnovalidate',
 		'hidden', // not a boolean attribute, but can be used like one
 		'inert',

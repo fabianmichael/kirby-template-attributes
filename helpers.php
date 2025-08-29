@@ -4,7 +4,7 @@ use FabianMichael\TemplateAttributes\Attributes;
 use Kirby\Toolkit\A;
 
 /**
- * Generates an attribuets object for further manipulation or echoing as string
+ * Generates an attributes object for further manipulation or echoing as string
  *
  * @param array|Attributes $data A list of attributes as key/value array, an instance of \FabianMichael\TemplateAttributes\Attributes (useful for nested snippets) or a list of named arguments
  * @return \FabianMichael\TemplateAttributes\Attributes
@@ -15,7 +15,7 @@ function attributes(...$args): Attributes
 }
 
 /**
- * Shortcut for creating an attributes object andsetting the class attribute.
+ * Shortcut for creating an attributes object and setting the class attribute.
  *
  * @return \FabianMichael\TemplateAttributes\Attributes
  */

@@ -29,7 +29,7 @@ class AttributesTest extends TestCase
 		$this->assertSame((string) $attr, 'bar="foo"');
 	}
 
-	public function testConstrucorNamedArguments(): void
+	public function testConstructorNamedArguments(): void
 	{
 		$attr = new Attributes(
 			foo: 'bar',
@@ -51,6 +51,15 @@ class AttributesTest extends TestCase
 		$attr = new Attributes('novalidate inert unknown-boolean');
 
 		$this->assertSame((string) $attr, 'inert novalidate unknown-boolean=""');
+	}
+
+	public function testAttributesWithAdditionalBooleanVariant(): void
+	{
+		$attr = new Attributes('download');
+		$this->assertSame((string) $attr, 'download');
+
+		$attr = new Attributes('download="filename"');
+		$this->assertSame((string) $attr, 'download="filename"');
 	}
 
 	public function testConversionToLowerCase(): void
