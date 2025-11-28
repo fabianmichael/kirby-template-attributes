@@ -183,8 +183,16 @@ class Attributes implements ArrayAccess, Stringable
 
 		foreach (A::wrap($classes) as $key => $class) {
 			if (is_numeric($key)) {
+				if (empty($class)) {
+					continue;
+				}
+
 				$value[] = $class;
 			} elseif ($class) {
+				if (empty($key)) {
+					continue;
+				}
+
 				$value[] = $key;
 			}
 		}
@@ -212,8 +220,16 @@ class Attributes implements ArrayAccess, Stringable
 
 		foreach ($styles as $key => $property) {
 			if (is_numeric($key)) {
+				if (empty($property)) {
+					continue;
+				}
+
 				$value[] = $property;
 			} elseif ($property) {
+				if (empty($key)) {
+					continue;
+				}
+
 				$value[] = $key;
 			}
 		}
