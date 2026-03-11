@@ -22,9 +22,9 @@ App::plugin('fabianmichael/template-attributes', [
 				}
 			}
 
-			return Snippet::factory($name, $data + [
+			return Snippet::factory($name, array_merge($data, [
 				'attributes' => $attributes,
-			], $slots);
+			]), $slots);
 		}
 	],
 ]);
