@@ -14,7 +14,7 @@ App::plugin('fabianmichael/template-attributes', [
 			array $data = [],
 			bool $slots = false,
 		): Snippet|string {
-			$attributes = new Attributes($data['attr'] ?? []);
+			$attributes = new Attributes($data['attributes'] ?? []);
 
 			foreach (['id', 'class', 'style'] as $attribute) {
 				if (isset($data[$attribute])) {
