@@ -105,6 +105,50 @@ The `classes()` helper is pretty flexible and also accepts multiple paramaters, 
 ]) ?>
 ```
 
+You can also use magic invoke method by calling the `Attributes` object like
+a function. This is basically syntactic sugar for passing-down attributes
+the snipept include chain:
+
+```php
+<?php
+
+// some parameter passed to the base button snippet for
+// overriding the button type
+$attr = attributes([
+	'type' => 'submit' 
+]);
+
+?>
+
+<button <?= $attr([
+	'type' =>  'button'
+]) ?>>[…]</button>
+
+```
+
+This is the same as:
+
+```php
+<?php
+
+$attr = attributes([
+	'class' => 'submit'
+]);
+
+?>
+
+<button <?= attributes([
+	'type' =>  'button'
+])->merge($attr) ?>>[…]</button>
+
+```
+
+Output is:
+
+```html
+<button type="submit">[…]</button>
+```
+
 ## Before/After
 
 You can set `$before` and `$after`, just like for Kirby’s `Html::attr()` helper by using the corresponding methods:
