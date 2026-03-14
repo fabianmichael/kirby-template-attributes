@@ -4,6 +4,9 @@
 
 This plugin brings [Vue.js](https://vuejs.org)/[Laravel-Blade](https://laravel.com/docs/9.x/blade#components)-like attribute composition to the templates of your [Kirby project](https://getkirby.com). This is an exploration in search of better HTML attribute handling for nested snippets and components.
 
+> [!NOTE]
+> This plugin is completely free and published under the MIT license. However, if you are using it in a commercial project and want to help me keep up with maintenance, please consider to **[❤️ sponsor me](https://github.com/sponsors/fabianmichael)** for securing the continued development of the plugin.
+
 ## Requirements
 
 - Kirby 4/5 (use version 1.x for Kirby 3 installations)
