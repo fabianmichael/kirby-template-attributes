@@ -229,6 +229,63 @@ This is already cool and makes working with attributes for snippets much easier,
 </nav>
 ```
 
+## Custom Snippet component
+
+It makes a lot of sense to standardize the usage of this plugin across your project and to reduce boilerplate code. A custom snippet component can help with that by ensuring that the `$attr` variable is always available:
+
+```php
+<?php
+
+use Kirby\Cms\App;
+use Kirby\Template\Snippet;
+
+App::plugin('my/site', [
+	'components' => [
+		'snippet' => function (
+			App $kirby,
+			string $name,
+			array $data = [],
+			bool $slots = false
+		): Snippet|string {
+			// ensure that `$attr` is always available
+			$data['attr'] = attributes($data['attr'] ?? []);
+
+			return $kirby->nativeComponent('snippet')(
+				$kirby,
+				$name,
+				$data,
+				$slots
+			);
+		},
+	],
+]);
+```
+
+No longer do your snippets have to include something like `$attr ??= []` at the top:
+
+```php
+# site/snippets/components/button.php
+
+<button <?= attributes([
+  'class' => 'button',
+])->merge($attr) ?>>
+  [...]
+</button>
+```
+
+You can event take this a step further by invoking `$attr()` as a function, which ist a shortcut for `attributes([…])->merge($attr)`:
+
+
+```php
+# site/snippets/components/button.php
+
+<button <?= $attr([
+  'class' => 'button',
+]) ?>>
+  [...]
+</button>
+```
+
 
 ## License
 
