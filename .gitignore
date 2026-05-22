@@ -1,6 +1,9 @@
 # OS files
 .DS_Store
 
+# Composer lock file
+composer.lock
+
 # vendor files modules
 /node_modules
 /vendor
