@@ -4,7 +4,7 @@
 	"homepage": "https://github.com/fabianmichael/kirby-template-attributes",
 	"license": "MIT",
 	"type": "kirby-plugin",
-	"version": "2.3.3",
+	"version": "2.3.4",
 	"authors": [
 		{
 			"name": "Fabian Michael",
@@ -15,7 +15,7 @@
 		"friendsofphp/php-cs-fixer": "^3.13",
 		"phpunit/phpunit": "^9",
 		"phpmd/phpmd" : "@stable",
-		"vimeo/psalm": "^5.1",
+		"vimeo/psalm": "^6",
 		"getkirby/cms": "^4.1.0",
 		"squizlabs/php_codesniffer": "^3.9"
 	},

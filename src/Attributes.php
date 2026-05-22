@@ -53,7 +53,7 @@ class Attributes implements ArrayAccess, Stringable
 		'shadowrootserializable',
 	];
 
-	public function __construct(...$data)
+	public function __construct(mixed ...$data)
 	{
 		$this->merge(...$data);
 	}
@@ -112,7 +112,7 @@ class Attributes implements ArrayAccess, Stringable
 		return $this->data[$name] ?? null;
 	}
 
-	public function merge(...$data): static
+	public function merge(mixed ...$data): static
 	{
 		if (count($data) === 1 && array_key_first($data) === 0) {
 			// single array/object input
@@ -264,16 +264,16 @@ class Attributes implements ArrayAccess, Stringable
 		return $this;
 	}
 
-	public function __call(string $name, array $arguments): self
+	public function __call(string $name, array $arguments): static|AttributeValue|null
 	{
-		if (func_num_args() === 1) {
+		if (count($arguments) === 0) {
 			return $this->get($name);
 		}
 
 		return $this->set($name, ...$arguments);
 	}
 
-	public function __invoke(...$data): static
+	public function __invoke(mixed ...$data): static
 	{
 		return (new static(...$data))->merge($this);
 	}
